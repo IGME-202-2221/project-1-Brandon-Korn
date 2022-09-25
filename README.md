@@ -36,8 +36,8 @@ Play as the retired ace pilot from the Space Wars who after a nice vaction at Ma
 
 ## Sources
 
-Animated Pixel Ships --- dylestorm (www.livingtheindie.com). Twitter: twitter.com/livingtheindie  PURCHASED
-Main Ship --- Commissioned from: Baldur (twitter.com/the__baldur).  Distributed by Foozle (www.foozle.io).   CC0 License.
+* Animated Pixel Ships --- dylestorm (www.livingtheindie.com). Twitter: twitter.com/livingtheindie  PURCHASED 
+* Main Ship --- Commissioned from: Baldur (twitter.com/the__baldur).  Distributed by Foozle (www.foozle.io).   CC0 License.
 
 ## Known Issues
 
