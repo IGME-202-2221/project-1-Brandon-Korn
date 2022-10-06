@@ -31,8 +31,9 @@ Play as the retired ace pilot from the Space Wars who after a nice vaction at Ma
 ## You Additions
 
  -- Custom Enemy types
- -- Bosses
- -- Customly designed levels
+ -- Power Ups
+ 
+ -- Bosses (Stretch Goal)
 
 ## Sources
 
