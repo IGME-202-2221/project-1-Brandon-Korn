@@ -11,6 +11,23 @@ public class VehicleMovement : MonoBehaviour
     [SerializeField]
     Vector3 vehiclePosition = Vector3.zero;
 
+    [SerializeField]
+    float fireRate;
+
+    [SerializeField]
+    BulletMovement bulletManager;
+
+    [SerializeField]
+    List<Sprite> damageLevelSprites;
+
+    int damageLevel = 0;
+
+    float timeSinceLastFire = 0;
+
+    [SerializeField]
+    float hitCooldownTimer = 1;
+    bool wasHit = false;
+
     //[SerializeField]
     //float turnAmount = 0;
 
@@ -30,6 +47,7 @@ public class VehicleMovement : MonoBehaviour
         height = cam.orthographicSize;
         width = height * cam.aspect;
 
+        GetComponent<SpriteRenderer>().sprite = damageLevelSprites[damageLevel];
     }
 
     // Update is called once per frame
@@ -59,6 +77,19 @@ public class VehicleMovement : MonoBehaviour
         }
 
         transform.position = vehiclePosition;
+
+
+        if (wasHit)
+        {
+            hitCooldownTimer -= Time.deltaTime;
+            if (hitCooldownTimer < 0)
+            {
+                wasHit = false;
+                GetComponent<SpriteRenderer>().color = Color.white;
+                hitCooldownTimer = 1;
+            }
+        }
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -73,7 +104,28 @@ public class VehicleMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            speed += 1;
+            if (Time.time - timeSinceLastFire > fireRate)
+            {
+                bulletManager.createBullet(transform, Vector3.right, BulletMovement.bulletType.player);
+                timeSinceLastFire = Time.time;
+            }
+        }
+    }
+
+    public void onHit()
+    {
+        if (!wasHit)
+        {
+            damageLevel++;
+            wasHit = true;
+
+            if (damageLevel > 3)
+            {
+                damageLevel = 3;
+            }
+            SpriteRenderer currentSprite = GetComponent<SpriteRenderer>();
+            currentSprite.sprite = damageLevelSprites[damageLevel];
+            currentSprite.color = Color.red;
         }
     }
 }

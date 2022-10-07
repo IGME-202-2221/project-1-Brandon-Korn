@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2205659910306316881}
   - component: {fileID: 2205659910306316880}
   - component: {fileID: 2205659910306316883}
+  - component: {fileID: -8939104046757436590}
   m_Layer: 0
   m_Name: Main Ship - Base - Full health
   m_TagString: Untagged
@@ -100,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   vehiclePosition: {x: 0, y: 0, z: 0}
+  bullet: {fileID: 2930888655100087057, guid: edfeaa6dd3fa4cb4a959bb3aa700f1f5, type: 3}
+  fireRate: 0
 --- !u!114 &2205659910306316883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,3 +205,15 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-8939104046757436590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2205659910306316879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f7bfdaf8d6e0a74d88933215e740b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

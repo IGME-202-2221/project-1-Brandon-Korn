@@ -6,50 +6,95 @@ public class Collisions : MonoBehaviour
 {
 
     [SerializeField]
-    List<SpriteInfo> enemies;
+    EnemyControls enemyManager;
 
     [SerializeField]
-    SpriteInfo player;
+    BulletMovement bulletManager;
 
     [SerializeField]
-    TextMesh instructions;
+    GameObject player;
 
-    string currentType = "AABB Collisions";
     bool aabbCollisions = true;
     bool playerColliding = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        instructions = Instantiate(instructions, new Vector3(0, -0.5f, 0), new Quaternion());
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        instructions.text = "Current collision type: " + currentType;
-        foreach (SpriteInfo enemy in enemies)
-        {
-            bool collisionCheck;
-            if (aabbCollisions)
-            {
-                collisionCheck = AABBCollision(player.getSprite(), enemy.getSprite());
-            }
-            else
-            {
-                collisionCheck = CircleCollision(player.getSprite(), enemy.getSprite());
-            }
-            enemy.updateCollisions(collisionCheck);
-            if (!playerColliding && collisionCheck)
-            {
-                playerColliding = true;
-            }
-        }
-        player.updateCollisions(playerColliding);
-        playerColliding = false;
+        enemyCollisions(enemyManager.GetAllEnemies(), bulletManager.GetAllBullets());
+
+        playerCollisions(bulletManager.GetAllBullets(), enemyManager.GetAllEnemies(), player);
     }
 
+    void enemyCollisions(List<GameObject> shipList, List<GameObject> bulletList)
+    {
+        for (int i = 0; i < shipList.Count; i++)
+        {
+            for (int j = 0; j < bulletList.Count; j++)
+            {
+                if (bulletList[j].GetComponent<BulletInfo>().myType == BulletMovement.bulletType.player) {
+
+
+                    if (CircleCollision(shipList[i].GetComponent<SpriteRenderer>(), bulletList[j].GetComponent<SpriteRenderer>()))
+                    {
+                        Destroy(shipList[i]);
+                        shipList.RemoveAt(i);
+                        i--;
+
+                        Destroy(bulletList[j]);
+                        bulletList.RemoveAt(j);
+                        j--;
+
+                        j = bulletList.Count;
+                    }
+                }
+            }
+        }
+
+    }
+
+    void playerCollisions(List<GameObject> bulletList, List<GameObject> shipList, GameObject player)
+    {
+        bool playerHit = false;
+
+        for (int i = 0; i < bulletList.Count; i++)
+        {
+            if (bulletList[i].GetComponent<BulletInfo>().myType != BulletMovement.bulletType.player)
+            {
+                if (CircleCollision(bulletList[i].GetComponent<SpriteRenderer>(), player.GetComponent<SpriteRenderer>()))
+                {
+                    Destroy(bulletList[i]);
+                    bulletList.RemoveAt(i);
+                    i--;
+
+                    playerHit = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < shipList.Count; i++)
+        {
+            if (CircleCollision(shipList[i].GetComponent<SpriteRenderer>(), player.GetComponent<SpriteRenderer>()))
+            {
+                Destroy(shipList[i]);
+                shipList.RemoveAt(i);
+                i--;
+
+                playerHit = true;
+            }
+        }
+
+        if (playerHit)
+        {
+            player.GetComponent<VehicleMovement>().onHit();
+        }
+    }
+    
     bool AABBCollision(SpriteRenderer player, SpriteRenderer enemy)
     {
 
@@ -63,11 +108,11 @@ public class Collisions : MonoBehaviour
 
         return false;
     }
-    bool CircleCollision(SpriteRenderer player, SpriteRenderer enemy)
+    bool CircleCollision(SpriteRenderer ship, SpriteRenderer bullet)
     {
-        Vector3 pRadius = player.bounds.size / 2;
-        Vector3 eRadius = enemy.bounds.size / 2;
-        Vector3 distance = player.bounds.center - enemy.bounds.center;
+        Vector3 pRadius = ship.bounds.size / 4;
+        Vector3 eRadius = bullet.bounds.size / 4;
+        Vector3 distance = ship.bounds.center - bullet.bounds.center;
 
         if (pRadius.magnitude + eRadius.magnitude < distance.magnitude)
         {
@@ -76,22 +121,7 @@ public class Collisions : MonoBehaviour
 
         return true;
     }
-
-    public void OnFire()
-    {
-        if (aabbCollisions)
-        {
-            aabbCollisions = false;
-            currentType = "Circle Collisions";
-            
-        }
-        else
-        {
-            aabbCollisions = true;
-            currentType = "AABB Collisions";
-        }
-    }
-
+    
     
 
 }
