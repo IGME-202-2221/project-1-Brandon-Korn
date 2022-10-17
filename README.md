@@ -10,10 +10,10 @@
 ## Game Design
 
 -   Camera Orientation: topdown
--   Camera Movement:The camera moves up the map, so the player is always moving forwards at least a little
--   Player Health: Multiple lives notated in the bottom, like galaga 
--   End Condition: There will be a final boss at the end of each level
--   Scoring: Scoring is based on the number of hits
+-   Camera Movement: The background moves behind the player as they move forward
+-   Player Health: The player ship has 4 levels of damage, the last being destoryed
+-   End Condition: Surviving as long as possible before dying
+-   Scoring: Scoring is based on the number of hits and collected orbs
 
 ### Game Description
 
@@ -31,9 +31,9 @@ Play as the retired ace pilot from the Space Wars who after a nice vaction at Ma
 ## You Additions
 
  -- Custom Enemy types
- -- Power Ups
+ -- Special Powers that charge up
  
- -- Bosses (Stretch Goal)
+ -- Boss fight (Stretch goal -- didn't make it in time)
 
 ## Sources
 
@@ -42,9 +42,8 @@ Play as the retired ace pilot from the Space Wars who after a nice vaction at Ma
 
 ## Known Issues
 
-_List any errors, lack of error checking, or specific information that I need to know to run your program_
+The webGL build online is a little messed up, but it works better in the Unity browser. The texts are smaller than they should, and the explosion animation doesn't play when the player dies, for a reason I do not know. But there is an explosion animation on player death. 
 
-### Requirements not completed
-
-_If you did not complete a project requirement, notate that here_
+### Other Notes
+The player's health is shown by the player sprite. As the player is hit, the ship gets more and more damage before it explodes. 
 
