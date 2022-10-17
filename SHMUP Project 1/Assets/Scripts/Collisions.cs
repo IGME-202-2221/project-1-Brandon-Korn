@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Collisions : MonoBehaviour
 {
@@ -14,13 +15,20 @@ public class Collisions : MonoBehaviour
     [SerializeField]
     GameObject player;
 
-    bool aabbCollisions = true;
-    bool playerColliding = false;
+    [SerializeField]
+    Text scoreText;
+
+    [SerializeField]
+    Pip_Movement pipControls;
+
+    public static int score = 0;
+
+    bool gameEnded = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        scoreText.text = "Score: " + score;
     }
 
     // Update is called once per frame
@@ -29,6 +37,23 @@ public class Collisions : MonoBehaviour
         enemyCollisions(enemyManager.GetAllEnemies(), bulletManager.GetAllBullets());
 
         playerCollisions(bulletManager.GetAllBullets(), enemyManager.GetAllEnemies(), player);
+
+        scoreText.text = "Score: " + score;
+
+        if (player.GetComponent<VehicleMovement>().gameOver &&
+            !gameEnded)
+        {
+            gameEnded = true;
+        }
+
+        if (gameEnded && !player.GetComponent<VehicleMovement>().gameOver)
+        {
+            enemyManager.ResetEnemies();
+            bulletManager.resetBullets();
+            pipControls.ResetPips();
+            gameEnded = false;
+            score = 0;
+        }
     }
 
     void enemyCollisions(List<GameObject> shipList, List<GameObject> bulletList)
@@ -42,6 +67,21 @@ public class Collisions : MonoBehaviour
 
                     if (CircleCollision(shipList[i].GetComponent<SpriteRenderer>(), bulletList[j].GetComponent<SpriteRenderer>()))
                     {
+                        int pipNum = 0;
+                        if (shipList[i].GetComponent<TurretMovement>() != null)
+                        {
+                            pipNum = Random.Range(0, 2);
+                        }
+                        else if (shipList[i].GetComponent<EnemyMovement>() != null)
+                        {
+                            pipNum = Random.Range(0, 4);
+                        }
+                        pipControls.CreatePips(pipNum, shipList[i].transform);
+
+
+                        score += 100;
+                        
+
                         Destroy(shipList[i]);
                         shipList.RemoveAt(i);
                         i--;
@@ -121,6 +161,8 @@ public class Collisions : MonoBehaviour
 
         return true;
     }
+
+    
     
     
 

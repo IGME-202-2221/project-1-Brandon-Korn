@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1301568373839574754}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 4.96, y: 1.7, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a28a38b76e31043a301e93d54b2f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 2.25
   fireRateRange: {x: 1.5, y: 2.5}
+  movementChangeTime: 1.55
   direction: {x: -1, y: 0, z: 0}
