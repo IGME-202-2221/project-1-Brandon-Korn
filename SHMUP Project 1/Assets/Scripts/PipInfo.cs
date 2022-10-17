@@ -24,6 +24,6 @@ public class PipInfo : MonoBehaviour
     public void UpdateMove()
     {
         transform.position += direction * speed * Time.deltaTime;
-        speed = speed * 0.9f;
+        speed = speed * 0.95f;
     }
 }
